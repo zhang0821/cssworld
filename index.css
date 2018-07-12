@@ -1,0 +1,241 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+
+.box{
+    padding: 10px;
+    border: 1px solid salmon;
+    text-align: center;
+}
+.content{
+    display: inline-block;
+    text-align: left; 
+}
+
+/* content属性的用法 */
+/* 增在加载中的省略号字符ß跳动 */
+dot{
+    display: inline-block;
+    height: 1em;
+    line-height: 1;
+    text-align: left;
+    vertical-align: -.25em;
+    overflow: hidden;
+}
+dot::before{
+    display: block;
+    content: '...\A..\A.\A';
+    
+    /* \D也有换行效果 */
+    white-space: pre-wrap;
+    animation: dot 3s infinite step-start both;
+}
+@keyframes dot{
+    33% {
+        transform: translateY(-2em);
+    }
+    66%{
+        transform: translateY(-1em);
+    }
+}
+/* 理解：插入三行内容：三个点，两个点，一个点，利用transform控制垂直位置，一次展示每一行内容 */
+
+/* 引号的替代功能 */
+.ask:before{
+    content: '提问：“';
+}
+.answer:before{
+    content: '因为：“';
+}
+.ask:after,.answer:after{
+    content:'“';
+}
+
+img::after{
+    content: attr(alt);
+}
+
+/* 计数器功能 */
+.counter-test{
+    counter-reset: wangxiaoer 2 wangxiaosan 3;
+    /* 计数器命名,可多个计数器同时命名 */
+    font: 40px 宋体;    
+    color:#699;
+}
+.counter-test:before{
+    content: counter(wangxiaoer);
+}
+.counter-test:after{
+    content: counter(wangxiaosan);
+}
+/* increment测试 */
+.counter-increment-test{
+    counter-reset: zhang 1 zhangli 2;
+
+    /* 自身普照一次 */
+    counter-increment: zhang;
+
+    font: 50px 微软雅黑;
+    color: orange;
+}
+.counter-increment-test:before{
+        /* 第二个参数 设置显示的形式，值为list－style－type支持的值 */
+    content: counter(zhang,lower-roman);
+
+    /* 子元素普照一次 */
+    counter-increment: zhang;
+}
+.counter-increment-test:after{
+    content: counter(zhang);
+    counter-increment: zhang -1;
+}
+/* 两次普照 计数会＋2 会在1的基础上＋2 */
+
+
+/* 级联的特点 */
+.counter-jilian-test{
+    counter-reset: jl1 0 jl2 1 jl3 2;
+    font: 20px 微软雅黑;
+    color:red;
+}
+.counter-jilian-test:before{
+    content: counter(jl1) '\A' counter(jl2) '\A' counter(jl3) ;
+    white-space: pre;
+    
+}
+
+/* connters的用法 */
+
+.counter-reset{
+    counter-reset: wangxiaoer;
+    padding-left: 20px;
+}
+.counter:before{
+    content: counters(wangxiaoer,'-') '.';
+    counter-increment: wangxiaoer;
+}
+.counter-reset ~ .counter{
+    color: aquamarine;
+}
+
+
+/* margin:auto */
+.father{
+    width: 300px;
+    height: 150px;
+    background: #ccc;
+    writing-mode: vertical-lr;
+}
+.son{
+    height: 100px;
+    margin: auto;
+    background: #699;
+}
+
+/* border */
+.add {
+    display: inline-block;
+    width: 76px; height: 76px;
+    color: #ccc;
+    border: 2px dashed;
+    text-indent: -12em;
+    transition: color .25s;
+    position: relative;
+    overflow: hidden;
+}
+.add:hover {
+    color: #34538b;
+}
+.add::before, .add::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.add::before {
+    width: 20px;
+    border-top: 4px solid;
+    margin: -2px 0 0 -10px;
+}
+.add::after {
+    height: 20px;
+    border-left: 4px solid;
+    margin: -10px 0 0 -2px;
+}
+
+/* 三角形绘制 */
+.buju{
+    display: inline-block;
+}
+.trangle{
+    width: 0;
+    border:20px solid;
+    border-color:red transparent transparent;
+}
+.trangle-1{
+    width: 0;
+    border-width:30px 20px;
+    border-style: solid;
+    border-color:green transparent transparent;
+}
+.trangle-2{
+    width: 0;
+    border-width:20px 30px;
+    border-style: solid;
+    border-color:orange transparent transparent;
+}
+.square{
+    width: 0;
+    border: 10px solid #ccc;
+}
+.rec{
+    width: 0;
+    border-width: 10px 20px;
+    border-style: solid;
+    border-color: aqua;
+}
+.icon-constru{
+    width: 20px;
+    height: 20px;
+    border: 20px solid;
+    border-color: red blue green orange;
+}
+.icon-constru-1{
+    width: 20px;
+    height: 20px;
+    border: 20px solid;
+    border-color: red blue transparent;
+}
+
+/* border的等高布局 */
+/* 导航背景区border创建 */
+.box { 
+    border-left: 150px solid #333;
+    background-color: #f0f3f9;
+  }
+  /* 清除浮动影响，不能使用overflow:hidden */
+  .box:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  /* 布局主结构 */
+  .box > nav {
+    width: 150px;
+    margin-left: -150px;
+    float: left;
+  }
+  .box > section {
+      overflow: hidden;
+  }
+  /* 导航列表和模块列表 */
+  .nav {
+      line-height: 40px;
+      color: #fff;
+  }
+  .module {
+      line-height: 40px;
+  }
